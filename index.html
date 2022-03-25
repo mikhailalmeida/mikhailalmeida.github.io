@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Page Title</title>
-</head>
-<body>
+  <head>
+    <title>Page Title</title>
+    
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.5.0.js"></script>
+  </head>
+  <body>
+    <p>Year: <input data-bind="value: year" /></p>
+    <p>Month: <input data-bind="value: month" /></p>
+    <p>Day: <input data-bind="value: day" /></p>
+    <p>Hour: <input data-bind="value: hour" /></p>
+    <p>Minute: <input data-bind="value: minute" /></p>
+    <p>Second: <input data-bind="value: second" /></p>
+    <p>Unix Time: <strong data-bind="text: unixTime"></strong></p>
+    
+    <script type="text/javascript">
+      function AppViewModel() {
+        var now = new Date(Date.now());
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+        this.year = ko.observable(now.getFullYear());
+        this.month = ko.observable(now.getMonth() + 1);
+        this.day = ko.observable(now.getDate());
+        this.hour = ko.observable(now.getHours());
+        this.minute = ko.observable(now.getMinutes());
+        this.second = ko.observable(now.getSeconds());
+        this.unixTime = ko.computed(function() {
+            var d = new Date(this.year(), this.month() - 1, this.day(), this.hour(), this.minute(), this.second());
 
-</body>
+            return (d.getTime() + (d.getTimezoneOffset() * 60000)) / 1000;
+        }, this);
+      }
+
+      // Activates knockout.js
+      ko.applyBindings(new AppViewModel());
+    </script>
+  </body>
 </html>
