@@ -12,6 +12,7 @@
     <p>Hour: <input data-bind="value: hour" /></p>
     <p>Minute: <input data-bind="value: minute" /></p>
     <p>Second: <input data-bind="value: second" /></p>
+    <p>Time Zone: <input data-bind="value: timeZone" /></p>
     <p>Unix Time: <strong data-bind="text: unixTime"></strong></p>
     
     <script type="text/javascript">
@@ -24,10 +25,11 @@
         this.hour = ko.observable(now.getHours());
         this.minute = ko.observable(now.getMinutes());
         this.second = ko.observable(now.getSeconds());
+        this.timeZone = ko.observable((now.getTimezoneOffset() / 60) * -1);
         this.unixTime = ko.computed(function() {
             var d = new Date(this.year(), this.month() - 1, this.day(), this.hour(), this.minute(), this.second());
 
-            return (d.getTime() + (d.getTimezoneOffset() * 60000)) / 1000;
+            return (d.getTime() + (this.timeZone() * -1 * 60 * 60000)) / 1000;
         }, this);
       }
 
