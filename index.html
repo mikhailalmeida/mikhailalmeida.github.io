@@ -29,7 +29,7 @@
         this.unixTime = ko.computed(function() {
             var d = new Date(this.year(), this.month() - 1, this.day(), this.hour(), this.minute(), this.second());
 
-            return (d.getTime() + (this.timeZone() * -1 * 60 * 60000)) / 1000;
+            return (d.getTime() + (((this.timeZone() * -1 * 60) - d.getTimezoneOffset()) * 60000)) / 1000;
         }, this);
       }
 
